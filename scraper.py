@@ -23,8 +23,9 @@ def extract_next_links(url, resp):
     #         resp.raw_response.url: the url, again
     #         resp.raw_response.content: the content of the page!
     # Return a list with the hyperlinks (as strings) scrapped from resp.raw_response.content
+    print("Extracting... " + str(resp.status))
     if resp.status != 200 or not resp.raw_response.content or resp.raw_response.content == "":
-        return ""
+        return []
     soup = BeautifulSoup(resp.raw_response.content, "lxml")
     #for link in soup.find_all('a'):
     #    print(link.get('href'))
@@ -33,6 +34,7 @@ def extract_next_links(url, resp):
     processedLinks = []
     for link in links:
         if link: #Possible encoding error, so far only 12 occurences in the beginning
+            print("Processing link... " + link)
             fragmentIndex = link.find("#")
             if fragmentIndex >= 0:
                 processedLinks.append(link[0:fragmentIndex])
@@ -40,6 +42,12 @@ def extract_next_links(url, resp):
                 processedLinks.append(link)
     return processedLinks
 
+
+'''
+Possible trap links:
+https://ics.uci.edu/2023/06/08/kuci-ask-a-leader-podcast-bandwidth-guard-it-like-your-life-depends-on-it, status <200>, using cache ('styx.ics.uci.edu', 9002).
+
+'''
 def is_valid(url):
     # Decide whether to crawl this url or not. 
     # If you decide to crawl it, return True; otherwise return False.
@@ -55,14 +63,21 @@ def is_valid(url):
                     + r"|informatics.uci.edu"
                     + r"|stat.uci.edu", parsed.netloc))'''
         if (re.search(r"ics.uci.edu" 
-                    + r"|cs.uci.edu" 
+                    + r"|\.cs.uci.edu" 
+                    + r"|^cs.uci.edu"
                     + r"|informatics.uci.edu"
                     + r"|stat.uci.edu", parsed.netloc)
             or re.match(r"today.uci.edu/department/information_computer_sciences", parsed.netloc)):
 
             if (re.search(r"\&eventDate="
                         + r"|ical="
-                        + r"|\d{4}-\d{2}-\d{2}", parsed.query)):
+                        + r"|\d{4}-\d{2}-\d{2}"
+                        + r"|events.*\d{4}-\d{2}"
+                        + r"|5bpartnerships_posts"
+                        + r"|5bresearch_areas_ics"
+                        + r"|share="
+                        + r"|happening/news/filter"
+                        + r"|action=download", parsed.path.lower() + parsed.query.lower())):
                 return False
 
             return not re.match(
@@ -73,7 +88,7 @@ def is_valid(url):
                 + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
                 + r"|epub|dll|cnf|tgz|sha1"
                 + r"|thmx|mso|arff|rtf|jar|csv"
-                + r"|rm|smil|wmv|swf|wma|zip|rar|gz)$", parsed.path.lower())
+                + r"|rm|smil|wmv|swf|wma|zip|rar|gz)$", parsed.path.lower() + parsed.query.lower())
 
         return False
 
