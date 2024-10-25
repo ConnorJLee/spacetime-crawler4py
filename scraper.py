@@ -62,11 +62,10 @@ def is_valid(url):
                     + r"|cs.uci.edu" 
                     + r"|informatics.uci.edu"
                     + r"|stat.uci.edu", parsed.netloc))'''
-        if (re.search(r"ics.uci.edu" 
-                    + r"|\.cs.uci.edu" 
-                    + r"|^cs.uci.edu"
-                    + r"|informatics.uci.edu"
-                    + r"|stat.uci.edu", parsed.netloc)
+        if (re.search(r"(^|\.)ics.uci.edu" 
+                    + r"|(^|\.)cs.uci.edu" 
+                    + r"|(^|\.)informatics.uci.edu"
+                    + r"|(^|\.)stat.uci.edu", parsed.netloc)
             or re.match(r"today.uci.edu/department/information_computer_sciences", parsed.netloc)):
 
             if (re.search(r"\&eventDate="
@@ -80,6 +79,7 @@ def is_valid(url):
                         + r"|wp-content/uploads"
                         + r"|action=login"
                         + r"|filter\%"
+                        + r"|redirect_to"
                         + r"|action=download", parsed.path.lower() + parsed.query.lower())):
                 return False
 
@@ -87,7 +87,7 @@ def is_valid(url):
                 r".*\.(css|js|bmp|gif|jpe?g|ico"
                 + r"|png|tiff?|mid|mp2|mp3|mp4"
                 + r"|wav|avi|mov|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
-                + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names"
+                + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names|ppsx"
                 + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
                 + r"|epub|dll|cnf|tgz|sha1|bib"
                 + r"|thmx|mso|arff|rtf|jar|csv"

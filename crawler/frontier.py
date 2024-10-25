@@ -26,6 +26,7 @@ class Frontier(object):
                             "#other#" : time()}
         
         self.rLock = RLock()
+        self.workerStatus = [True for i in range(self.config.threads_count)]
         
         if not os.path.exists(self.config.save_file) and not restart:
             # Save file does not exist, but request to load save.
@@ -48,6 +49,8 @@ class Frontier(object):
             if not self.save:
                 for url in self.config.seed_urls:
                     self.add_url(url)
+
+        #print(self.to_be_downloaded)
 
     def _storeUrl(self, url):
         matched = False
@@ -84,6 +87,7 @@ class Frontier(object):
                         elif not self.to_be_downloaded[domain]:
                             emptyLists += 1
                     
+                    #Need to tell worker when to wait in case not all urls gotten, may not be necessary
                     if emptyLists == len(self.to_be_downloaded):
                         return None
                 except IndexError:
@@ -99,6 +103,7 @@ class Frontier(object):
                 self.save[urlhash] = (url, False)
                 self.save.sync()
                 self._storeUrl(url)
+                self.workerStatus = [True for i in range(self.config.threads_count)]
     
     def mark_url_complete(self, url):
         with self.rLock:
@@ -110,3 +115,8 @@ class Frontier(object):
 
             self.save[urlhash] = (url, True)
             self.save.sync()
+
+    def isDone(workerId):
+        with self.rLock:
+            self.workerStatus[workerId] = False
+            return not any(self.workerStatus)
