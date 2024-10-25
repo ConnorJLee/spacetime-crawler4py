@@ -116,7 +116,7 @@ class Frontier(object):
             self.save[urlhash] = (url, True)
             self.save.sync()
 
-    def isDone(workerId):
+    def isDone(self, workerId):
         with self.rLock:
             self.workerStatus[workerId] = False
             return not any(self.workerStatus)
