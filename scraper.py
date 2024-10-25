@@ -23,7 +23,7 @@ def extract_next_links(url, resp):
     #         resp.raw_response.url: the url, again
     #         resp.raw_response.content: the content of the page!
     # Return a list with the hyperlinks (as strings) scrapped from resp.raw_response.content
-    print("Extracting... " + str(resp.status))
+    #print("Extracting... " + str(resp.status))
     if resp.status != 200 or not resp.raw_response.content or resp.raw_response.content == "":
         return []
     soup = BeautifulSoup(resp.raw_response.content, "lxml")
@@ -34,7 +34,7 @@ def extract_next_links(url, resp):
     processedLinks = []
     for link in links:
         if link: #Possible encoding error, so far only 12 occurences in the beginning
-            print("Processing link... " + link)
+            #print("Processing link... " + link)
             fragmentIndex = link.find("#")
             if fragmentIndex >= 0:
                 processedLinks.append(link[0:fragmentIndex])
@@ -77,6 +77,9 @@ def is_valid(url):
                         + r"|5bresearch_areas_ics"
                         + r"|share="
                         + r"|happening/news/filter"
+                        + r"|wp-content/uploads"
+                        + r"|action=login"
+                        + r"|filter\%"
                         + r"|action=download", parsed.path.lower() + parsed.query.lower())):
                 return False
 
@@ -86,7 +89,7 @@ def is_valid(url):
                 + r"|wav|avi|mov|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
                 + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names"
                 + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
-                + r"|epub|dll|cnf|tgz|sha1"
+                + r"|epub|dll|cnf|tgz|sha1|bib"
                 + r"|thmx|mso|arff|rtf|jar|csv"
                 + r"|rm|smil|wmv|swf|wma|zip|rar|gz)$", parsed.path.lower() + parsed.query.lower())
 
