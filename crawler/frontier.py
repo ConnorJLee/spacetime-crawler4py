@@ -3,6 +3,8 @@ import shelve
 
 from threading import Thread, RLock
 from queue import Queue, Empty
+from time import time, sleep
+from re import match
 
 from utils import get_logger, get_urlhash, normalize
 from scraper import is_valid
@@ -11,7 +13,19 @@ class Frontier(object):
     def __init__(self, config, restart):
         self.logger = get_logger("FRONTIER")
         self.config = config
-        self.to_be_downloaded = list()
+        #May need to make this expand automatically, take the url, parse it, then take the domain
+        self.to_be_downloaded = {".*(\.|\/)ics.uci.edu/" : list(),
+                                 ".*(\.|\/)cs.uci.edu/" : list(),
+                                 ".*(\.|\/)informatics.uci.edu/" : list(),
+                                 ".*(\.|\/)stat.uci.edu/" : list(),
+                                 "#other#" : list()}
+        self.last_popped = {".*(\.|\/)ics.uci.edu/" : time(),
+                            ".*(\.|\/)cs.uci.edu/" : time(),
+                            ".*(\.|\/)informatics.uci.edu/" : time(),
+                            ".*(\.|\/)stat.uci.edu/" : time(),
+                            "#other#" : time()}
+        
+        self.rLock = RLock()
         
         if not os.path.exists(self.config.save_file) and not restart:
             # Save file does not exist, but request to load save.
@@ -35,38 +49,63 @@ class Frontier(object):
                 for url in self.config.seed_urls:
                     self.add_url(url)
 
+    def _storeUrl(self, url):
+        matched = False
+        for domain in self.to_be_downloaded.keys():
+            if match(domain, url):
+                self.to_be_downloaded[domain].append(url)
+                matched = True
+        if not matched:
+            self.to_be_downloaded["#other#"].append(url)
+
     def _parse_save_file(self):
         ''' This function can be overridden for alternate saving techniques. '''
         total_count = len(self.save)
         tbd_count = 0
         for url, completed in self.save.values():
             if not completed and is_valid(url):
-                self.to_be_downloaded.append(url)
+                self._storeUrl(url)
                 tbd_count += 1
         self.logger.info(
             f"Found {tbd_count} urls to be downloaded from {total_count} "
             f"total urls discovered.")
 
     def get_tbd_url(self):
-        try:
-            return self.to_be_downloaded.pop()
-        except IndexError:
-            return None
+        with self.rLock:
+            while True:
+                try:
+                    currentTime = time()
+                    emptyLists = 0
+                    for domain, lastTime in self.last_popped.items():
+                        if (currentTime - lastTime > self.config.time_delay 
+                            and self.to_be_downloaded[domain]):
+                            return self.to_be_downloaded[domain].pop()
+                        elif not self.to_be_downloaded[domain]:
+                            emptyLists += 1
+                    
+                    if emptyLists == len(self.to_be_downloaded):
+                        return None
+                except IndexError:
+                    return None
+                
+                sleep(self.config.time_delay / 2)
 
     def add_url(self, url):
-        url = normalize(url)
-        urlhash = get_urlhash(url)
-        if urlhash not in self.save:
-            self.save[urlhash] = (url, False)
-            self.save.sync()
-            self.to_be_downloaded.append(url)
+        with self.rLock:
+            url = normalize(url)
+            urlhash = get_urlhash(url)
+            if urlhash not in self.save:
+                self.save[urlhash] = (url, False)
+                self.save.sync()
+                self._storeUrl(url)
     
     def mark_url_complete(self, url):
-        urlhash = get_urlhash(url)
-        if urlhash not in self.save:
-            # This should not happen.
-            self.logger.error(
-                f"Completed url {url}, but have not seen it before.")
+        with self.rLock:
+            urlhash = get_urlhash(url)
+            if urlhash not in self.save:
+                # This should not happen.
+                self.logger.error(
+                    f"Completed url {url}, but have not seen it before.")
 
-        self.save[urlhash] = (url, True)
-        self.save.sync()
+            self.save[urlhash] = (url, True)
+            self.save.sync()
