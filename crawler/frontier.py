@@ -14,15 +14,15 @@ class Frontier(object):
         self.logger = get_logger("FRONTIER")
         self.config = config
         #May need to make this expand automatically, take the url, parse it, then take the domain
-        self.to_be_downloaded = {".*(\.|\/)ics.uci.edu/" : list(),
-                                 ".*(\.|\/)cs.uci.edu/" : list(),
-                                 ".*(\.|\/)informatics.uci.edu/" : list(),
-                                 ".*(\.|\/)stat.uci.edu/" : list(),
+        self.to_be_downloaded = {".*(\.|\/)ics.uci.edu" : list(),
+                                 ".*(\.|\/)cs.uci.edu" : list(),
+                                 ".*(\.|\/)informatics.uci.edu" : list(),
+                                 ".*(\.|\/)stat.uci.edu" : list(),
                                  "#other#" : list()}
-        self.last_popped = {".*(\.|\/)ics.uci.edu/" : time(),
-                            ".*(\.|\/)cs.uci.edu/" : time(),
-                            ".*(\.|\/)informatics.uci.edu/" : time(),
-                            ".*(\.|\/)stat.uci.edu/" : time(),
+        self.last_popped = {".*(\.|\/)ics.uci.edu" : time(),
+                            ".*(\.|\/)cs.uci.edu" : time(),
+                            ".*(\.|\/)informatics.uci.edu" : time(),
+                            ".*(\.|\/)stat.uci.edu" : time(),
                             "#other#" : time()}
         
         self.rLock = RLock()
@@ -79,6 +79,7 @@ class Frontier(object):
                     for domain, lastTime in self.last_popped.items():
                         if (currentTime - lastTime > self.config.time_delay 
                             and self.to_be_downloaded[domain]):
+                            self.last_popped[domain] = time()
                             return self.to_be_downloaded[domain].pop()
                         elif not self.to_be_downloaded[domain]:
                             emptyLists += 1
