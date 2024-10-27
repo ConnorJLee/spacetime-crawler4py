@@ -1,5 +1,6 @@
 from threading import Thread
 
+from bs4 import BeautifulSoup
 from inspect import getsource
 from utils.download import download
 from utils import get_logger
@@ -28,9 +29,18 @@ class Worker(Thread):
                 self.logger.info("Frontier is empty. Stopping Crawler.")
                 break
             resp = download(tbd_url, self.config, self.logger)
+
             self.logger.info(
                 f"Downloaded {tbd_url}, status <{resp.status}>, "
                 f"using cache {self.config.cache_server}.")
+
+            if (resp.status == 200):
+                soup = BeautifulSoup(resp.raw_response.content, "lxml")
+                pageText = soup.get_text()
+                if len(pageText) > 0:
+                    #self.frontier.savePage(tbd_url, pageText)
+                    pass
+                    
             scraped_urls = scraper.scraper(tbd_url, resp)
             for scraped_url in scraped_urls:
                 self.frontier.add_url(scraped_url)

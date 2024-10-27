@@ -30,6 +30,13 @@ def extract_next_links(url, resp):
     #for link in soup.find_all('a'):
     #    print(link.get('href'))
 
+    #Possibly use meta tags (search for robots meta tag and exclude if it has a no content)
+
+    pageText = soup.get_text()
+    if len(pageText) == 0:
+        return []
+    
+
     links = [link.get('href') for link in soup.find_all('a')]
     processedLinks = []
     for link in links:
@@ -69,8 +76,9 @@ def is_valid(url):
             or re.match(r"today.uci.edu/department/information_computer_sciences", parsed.netloc)):
 
             if (re.search(r"\&eventDate="
+                        + r"|eventDisplay=day"
                         + r"|ical="
-                        + r"|\d{4}-\d{2}-\d{2}"
+                        #+ r"|\d{4}-\d{2}-\d{2}"
                         + r"|events.*\d{4}-\d{2}"
                         + r"|5bpartnerships_posts"
                         + r"|5bresearch_areas_ics"

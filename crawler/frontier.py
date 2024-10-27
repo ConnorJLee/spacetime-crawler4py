@@ -26,6 +26,8 @@ class Frontier(object):
                             "#other#" : time()}
         
         self.rLock = RLock()
+        self.saveLock = RLock()
+
         self.workerStatus = [True for i in range(self.config.threads_count)]
         
         if not os.path.exists(self.config.save_file) and not restart:
@@ -120,3 +122,8 @@ class Frontier(object):
         with self.rLock:
             self.workerStatus[workerId] = False
             return not any(self.workerStatus)
+
+    def savePage(self, url, pageContent):
+        with self.saveLock:
+            with open("downloadPage.txt", "a") as pageFile:
+                pageFile.write(url + "\n" + pageContent.replace("\n", "") + "\n")
