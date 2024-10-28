@@ -4,7 +4,7 @@ import shelve
 from threading import Thread, RLock
 from queue import Queue, Empty
 from time import time, sleep
-from re import match
+from re import match, findall
 
 from utils import get_logger, get_urlhash, normalize
 from scraper import is_valid
@@ -122,8 +122,17 @@ class Frontier(object):
         with self.rLock:
             self.workerStatus[workerId] = False
             return not any(self.workerStatus)
+        # once all false then log something? maybe process stored URLs (for subdomain # pages -> self.save.values())
+        # gives unique number of pages
+        # urlparse -> url.netloc = subdomain counter thingy
+        # make ics.uci.edu and www.ics.uci.edu the same subdomain ~ remove www. -> say that in comments for TAs?
 
     def savePage(self, url, pageContent):
         with self.saveLock:
             with open("downloadPage.txt", "a") as pageFile:
-                pageFile.write(url + "\n" + pageContent.replace("\n", "") + "\n")
+                pageFile.write(url + "\n" + pageContent + "\n\n")
+
+    # processPage?
+        # maybe keep track of subdomains?
+        # Tokens are alphanumeric but can include hyphens/apostrophes. Use regex?
+        # [a-zA-Z0-9]*(\'|\-)*[a-zA-Z0-9]*|\(\d{3}\) \d{3}-\d{4}

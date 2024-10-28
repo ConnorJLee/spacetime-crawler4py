@@ -50,11 +50,6 @@ def extract_next_links(url, resp):
     return processedLinks
 
 
-'''
-Possible trap links:
-https://ics.uci.edu/2023/06/08/kuci-ask-a-leader-podcast-bandwidth-guard-it-like-your-life-depends-on-it, status <200>, using cache ('styx.ics.uci.edu', 9002).
-
-'''
 def is_valid(url):
     # Decide whether to crawl this url or not. 
     # If you decide to crawl it, return True; otherwise return False.

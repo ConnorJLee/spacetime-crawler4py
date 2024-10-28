@@ -33,13 +33,17 @@ class Worker(Thread):
             self.logger.info(
                 f"Downloaded {tbd_url}, status <{resp.status}>, "
                 f"using cache {self.config.cache_server}.")
+            if resp.status == 200:
+                soup = BeautifulSoup(resp.raw_response.content, "lxml")
+                pageText = soup.get_text()
+                self.logger.info(tbd_url + ": PageLen=" + str(len(pageText)))
 
-            if (resp.status == 200):
+            '''if (resp.status == 200):
                 soup = BeautifulSoup(resp.raw_response.content, "lxml")
                 pageText = soup.get_text()
                 if len(pageText) > 0:
                     #self.frontier.savePage(tbd_url, pageText)
-                    pass
+                    pass'''
                     
             scraped_urls = scraper.scraper(tbd_url, resp)
             for scraped_url in scraped_urls:
