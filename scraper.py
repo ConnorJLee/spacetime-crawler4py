@@ -6,13 +6,6 @@ def scraper(url, resp):
     links = extract_next_links(url, resp)
     return [link for link in links if is_valid(link)]
 
-'''
-    Need to check for:
-        traps/infinite loops
-        Possibly filter in the extract next links
-        Maybe check for validity in extract next links for speed? (may not be necessary)
-        Something wrong with excluding files, will need to check
-'''
 def extract_next_links(url, resp):
     # Implementation required.
     # url: the URL that was used to get the page
@@ -23,25 +16,22 @@ def extract_next_links(url, resp):
     #         resp.raw_response.url: the url, again
     #         resp.raw_response.content: the content of the page!
     # Return a list with the hyperlinks (as strings) scrapped from resp.raw_response.content
-    #print("Extracting... " + str(resp.status))
+
     if resp.status != 200 or not resp.raw_response.content or resp.raw_response.content == "":
         return []
     soup = BeautifulSoup(resp.raw_response.content, "lxml")
-    #for link in soup.find_all('a'):
-    #    print(link.get('href'))
 
-    #Possibly use meta tags (search for robots meta tag and exclude if it has a no content)
+    MIN_CHARS = 0
 
     pageText = soup.get_text()
-    if len(pageText) == 0:
+    if len(pageText) == MIN_CHARS: # If page has no visible text, low information value
         return []
     
 
     links = [link.get('href') for link in soup.find_all('a')]
     processedLinks = []
     for link in links:
-        if link: #Possible encoding error, so far only 12 occurences in the beginning
-            #print("Processing link... " + link)
+        if link:
             fragmentIndex = link.find("#")
             if fragmentIndex >= 0:
                 processedLinks.append(link[0:fragmentIndex])
@@ -59,19 +49,14 @@ def is_valid(url):
         if parsed.scheme not in set(["http", "https"]):
             return False
 
-        '''print(parsed.netloc)
-        print(re.search(r"ics.uci.edu" 
-                    + r"|cs.uci.edu" 
-                    + r"|informatics.uci.edu"
-                    + r"|stat.uci.edu", parsed.netloc))'''
         if (re.search(r"(^|\.)ics.uci.edu" 
                     + r"|(^|\.)cs.uci.edu" 
                     + r"|(^|\.)informatics.uci.edu"
                     + r"|(^|\.)stat.uci.edu", parsed.netloc)
             or re.match(r"today.uci.edu/department/information_computer_sciences", parsed.netloc)):
 
-            if (re.search(r"\&eventDate="
-                        + r"|eventDisplay=day"
+            if (re.search(r"\&eventdate="
+                        + r"|eventdisplay="
                         + r"|ical="
                         #+ r"|\d{4}-\d{2}-\d{2}"
                         + r"|events.*\d{4}-\d{2}"
@@ -80,9 +65,9 @@ def is_valid(url):
                         + r"|share="
                         + r"|happening/news/filter"
                         + r"|wp-content/uploads"
-                        + r"|action=login"
                         + r"|filter\%"
                         + r"|redirect_to"
+                        + r"|login"
                         + r"|action=download", parsed.path.lower() + parsed.query.lower())):
                 return False
 
@@ -92,7 +77,7 @@ def is_valid(url):
                 + r"|wav|avi|mov|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
                 + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names|ppsx"
                 + r"|data|dat|exe|bz2|tar|msi|bin|7z|psd|dmg|iso"
-                + r"|epub|dll|cnf|tgz|sha1|bib"
+                + r"|epub|dll|cnf|tgz|sha1|bib|odc"
                 + r"|thmx|mso|arff|rtf|jar|csv"
                 + r"|rm|smil|wmv|swf|wma|zip|rar|gz)$", parsed.path.lower() + parsed.query.lower())
 
