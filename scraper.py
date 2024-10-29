@@ -58,7 +58,7 @@ def is_valid(url):
             if (re.search(r"\&eventdate="
                         + r"|eventdisplay="
                         + r"|ical="
-                        #+ r"|\d{4}-\d{2}-\d{2}"
+                        + r"|\d{4}-\d{2}-\d{2}"
                         + r"|events.*\d{4}-\d{2}"
                         + r"|5bpartnerships_posts"
                         + r"|5bresearch_areas_ics"
