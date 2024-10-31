@@ -13,7 +13,6 @@ class Frontier(object):
     def __init__(self, config, restart):
         self.logger = get_logger("FRONTIER")
         self.config = config
-        #May need to make this expand automatically, take the url, parse it, then take the domain
         self.to_be_downloaded = {".*(\.|\/)ics.uci.edu" : list(),
                                  ".*(\.|\/)cs.uci.edu" : list(),
                                  ".*(\.|\/)informatics.uci.edu" : list(),
@@ -125,12 +124,15 @@ class Frontier(object):
         # once all false then log something? maybe process stored URLs (for subdomain # pages -> self.save.values())
         # gives unique number of pages
         # urlparse -> url.netloc = subdomain counter thingy
+        # also count total amount of unique links visited (values totaled up or just count as you process ?)
         # make ics.uci.edu and www.ics.uci.edu the same subdomain ~ remove www. -> say that in comments for TAs?
 
     def savePage(self, url, pageContent):
         with self.saveLock:
             with open("downloadPage.txt", "a") as pageFile:
-                pageFile.write(url + "\n" + pageContent + "\n\n")
+                pageFile.write("#3e5d3752-f4a1-4417-a0ea-631ac7b91200#" + 
+                                url +"#3e5d3752-f4a1-4417-a0ea-631ac7b91200#" + "\n" + #Remove new line 
+                                " ".join(pageContent) + "\n\n")
 
     # processPage?
         # maybe keep track of subdomains?
