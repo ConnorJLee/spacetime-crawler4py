@@ -67,8 +67,10 @@ def processWorkerLog():
                 if numWords > longest[1]:
                     longest[0] = line
                     longest[1] = numWords
+
+    longestPages = sorted(longestDict.items(), key=lambda item : item[1], reverse=True)
     print("Longest pages\n")
-    print(sorted(longestDict.items(), key=lambda item : item[0], reverse=True))
+    print(longestPages[:5])
     print("end")
     return longest
     
