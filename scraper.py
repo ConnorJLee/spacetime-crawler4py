@@ -56,7 +56,7 @@ def is_valid(url):
             or re.match(r"today.uci.edu/department/information_computer_sciences", parsed.netloc)):
 
             if (re.search(r"\&eventdate="
-                        + r"|eventdisplay="
+                        #+ r"|eventdisplay="
                         + r"|ical="
                         + r"|\d{4}-\d{2}-\d{2}"
                         + r"|events.*\d{4}-\d{2}"

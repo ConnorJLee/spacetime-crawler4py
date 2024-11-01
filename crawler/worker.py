@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from inspect import getsource
 from utils.download import download
 from utils import get_logger
+from re import findall
 import scraper
 import time
 
@@ -33,17 +34,15 @@ class Worker(Thread):
             self.logger.info(
                 f"Downloaded {tbd_url}, status <{resp.status}>, "
                 f"using cache {self.config.cache_server}.")
-            if resp.status == 200:
-                soup = BeautifulSoup(resp.raw_response.content, "lxml")
-                pageText = soup.get_text()
-                self.logger.info(tbd_url + ": PageLen=" + str(len(pageText)))
 
-            '''if (resp.status == 200):
+            if (resp.status == 200):
                 soup = BeautifulSoup(resp.raw_response.content, "lxml")
                 pageText = soup.get_text()
+                words = findall(r"[a-zA-Z0-9]+[\'|\-]{,1}[a-zA-Z0-9]*", pageText)
                 if len(pageText) > 0:
-                    #self.frontier.savePage(tbd_url, pageText)
-                    pass'''
+                    self.logger.info(tbd_url + ": NumWords=" + str(len(words)))
+                    self.frontier.savePage(tbd_url, words)
+                    pass
                     
             scraped_urls = scraper.scraper(tbd_url, resp)
             for scraped_url in scraped_urls:

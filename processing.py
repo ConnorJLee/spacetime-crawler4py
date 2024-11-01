@@ -35,7 +35,19 @@ def processWords():
     return wordDict, urlFreq
 
 def processWorkerLog():
-    urlFreq = dict()
+    longest = ["", -1]
+    with open("WorkerReal1.txt", "r", encoding="utf8") as file:
+        for line in file:
+            textWords = re.findall("NumWords=\d*", line)
+            #textWords = re.findall("PageLen=\d*", line)
+            if textWords:
+                numWords = int(textWords[0][9:])
+                #numWords = int(textWords[0][8:])
+                if numWords > longest[1]:
+                    longest[0] = line
+                    longest[1] = numWords
+
+    return longest
     
 
 
@@ -47,4 +59,6 @@ if __name__ == "__main__":
     words = sorted(processedWords.items(), key = lambda item : -1 * item[1])
     print(words[:50])
     print()
-    print(sorted(processedUrls.items(), key = lambda item : -1 * item[1]))
+    print(sorted(processedUrls.items(), key = lambda item : item[0]))
+    print()
+    print(processWorkerLog())
