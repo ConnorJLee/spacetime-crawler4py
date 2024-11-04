@@ -131,7 +131,7 @@ class Frontier(object):
         with self.saveLock:
             with open("downloadPage.txt", "a") as pageFile:
                 pageFile.write("#3e5d3752-f4a1-4417-a0ea-631ac7b91200#" + 
-                                url +"#3e5d3752-f4a1-4417-a0ea-631ac7b91200#" + "\n" + #Remove new line 
+                                url +"#3e5d3752-f4a1-4417-a0ea-631ac7b91200#" + "\n" + 
                                 " ".join(pageContent) + "\n\n")
 
     # processPage?
