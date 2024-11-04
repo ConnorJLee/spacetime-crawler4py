@@ -9,7 +9,7 @@ def processWords():
     longest = -1
     longestUrl = ""
     stopwords = {'any', 'their', "when's", 'themselves', "don't", 'while', "there's", 'them', 'have', 'but', 'no', 'do', 'if', 'having', "i've", 'be', 'yourself', "couldn't", 'into', 'nor', "he'd", "you're", 'are', "we'll", 'ought', "doesn't", 'under', 'they', 'too', 'our', 'down', 'all', 'did', 'and', 'both', 'does', "weren't", 'each', 'there', 'from', 'she', 'could', "they'd", "wouldn't", "hasn't", 'below', 'other', 'yourselves', 'your', 'am', 'off', 'in', "she'll", 'then', "how's", "you'd", 'this', 'most', 'being', 'few', "he's", 'not', 'he', "can't", 'as', "you'll", "wasn't", 'once', 'on', "didn't", "who's", 'that', 'myself', 'it', "hadn't", 'during', 'further', 'doing', 'how', 'of', "shan't", 'through', 'would', 'i', "they'll", 'again', 'has', "we'd", 'cannot', 'these', 'was', 'ours', 'ourselves', 'above', 'him', 'you', 'after', 'me', 'before', 'between', 'been', 'same', 'theirs', 'whom', "won't", "let's", 'to', 'very', 'such', 'or', 'so', "aren't", 'those', "what's", 'who', 'which', 'against', 'hers', 'over', 'by', "we're", "it's", "she'd", 'should', 'a', 'where', "she's", 'what', "haven't", 'yours', 'because', 'his', 'why', 'were', 'is', 'its', "we've", 'own', 'at', 'only', "he'll", "you've", "here's", "i'd", "i'm", 'here', "that's", "they're", 'up', 'her', 'itself', 'than', 'until', 'about', "why's", "shouldn't", 'herself', 'we', 'the', 'my', "i'll", 'out', "isn't", "where's", 'had', "they've", 'when', "mustn't", 'for', 'an', 'some', 'himself', 'more', 'with'}
-    with open("downloadPageReal1.txt", "r", encoding="utf8") as file:
+    with open("downloadPageReal3.txt", "r", encoding="utf8") as file:
         text = file.read()
         text = text.split("#3e5d3752-f4a1-4417-a0ea-631ac7b91200#")
         for i in range(1, len(text)-1, 2): #Exclude first split since there was nothing before it
@@ -51,12 +51,13 @@ def processWords():
     print(len(urlFreq))
     print(longestUrl, ": " + str(longest))
     print(endingsSet)
+    print(sum(urlFreq.values()))
     return wordDict, urlFreq
 
 def processWorkerLog():
     longest = ["", -1]
     longestDict = dict()
-    with open("WorkerReal1.txt", "r", encoding="utf8") as file:
+    with open("WorkerReal3.txt", "r", encoding="utf8") as file:
         for line in file:
             textWords = re.findall("NumWords=\d*", line)
             #textWords = re.findall("PageLen=\d*", line)

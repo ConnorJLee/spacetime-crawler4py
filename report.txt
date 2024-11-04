@@ -1,0 +1,169 @@
+﻿1.  11487 Unique pages were found
+
+
+2. https://sli.ics.uci.edu/AIStats/Postings was the longest page in terms of words, with 22698 words found (words defined as alphanumeric with a possible dash or apostrophe in between)
+
+
+3. 50 most frequent words listed below:
+1 research, 94020
+2 ics, 68250
+3 student, 56135
+4 science, 51868
+5 computer, 47198
+6 learning, 43650
+7 graduate, 43085
+8 undergraduate, 42223
+9 informatics, 37006
+10 news, 35656
+11 us, 34674
+12 data, 34115
+13 students, 32880
+14 software, 28731
+15 2024, 28109
+16 events, 28044
+17 community, 27900
+18 view, 27641
+19 information, 26508
+20 uci, 26345
+21 alumni, 24365
+22 machine, 22715
+23 computing, 22527
+24 spotlights, 22494
+25 school, 22172
+26 october, 22151
+27 future, 21522
+28 2018, 20525
+29 faculty, 20490
+30 statistics, 19885
+31 programs, 19812
+32 projects, 18826
+33 systems, 18551
+34 2021, 18242
+35 2023, 17760
+36 2019, 17695
+37 bren, 17141
+38 2020, 17137
+39 2022, 17055
+40 irvine, 16467
+41 people, 16412
+42 donald, 16054
+43 corporate, 16012
+44 2017, 15936
+45 2016, 15860
+46 academic, 15615
+47 will, 15610
+48 may, 15494
+49 engineering, 15328
+50 honors, 15001
+
+
+4. 109 subdomains were found:
+accessibility.ics.uci.edu, 2
+acoi.ics.uci.edu, 108
+aiclub.ics.uci.edu, 1
+archive.ics.uci.edu, 5
+asterix.ics.uci.edu, 6
+biaslab.ics.uci.edu, 1
+capstone.cs.uci.edu, 7
+cbcl.ics.uci.edu, 3
+cert.ics.uci.edu, 3
+chenli.ics.uci.edu, 3
+cloudberry.ics.uci.edu, 45
+cml.ics.uci.edu, 199
+code.ics.uci.edu, 14
+computableplant.ics.uci.edu, 31
+courselisting.ics.uci.edu, 4
+cradl.ics.uci.edu, 18
+create.ics.uci.edu, 7
+cs.ics.uci.edu, 13
+cs.uci.edu, 9
+cs260p-hub.ics.uci.edu, 1
+cs260p-staging-hub.ics.uci.edu, 1
+cwicsocal18.ics.uci.edu, 12
+cyberclub.ics.uci.edu, 1
+dejavu.ics.uci.edu, 1
+dgillen.ics.uci.edu, 32
+ds4all.ics.uci.edu, 3
+duttgroup.ics.uci.edu, 128
+dynamo.ics.uci.edu, 1
+edgelab.ics.uci.edu, 7
+eli.ics.uci.edu, 4
+emj.ics.uci.edu, 42
+esl.ics.uci.edu, 1
+evoke.ics.uci.edu, 5
+flamingo.ics.uci.edu, 10
+fr.ics.uci.edu, 3
+frost.ics.uci.edu, 1
+futurehealth.ics.uci.edu, 4
+grape.ics.uci.edu, 67
+graphics.ics.uci.edu, 4
+graphmod.ics.uci.edu, 1
+hack.ics.uci.edu, 2
+hai.ics.uci.edu, 3
+helpdesk.ics.uci.edu, 3
+hobbes.ics.uci.edu, 1
+hpi.ics.uci.edu, 5
+hub.ics.uci.edu, 3
+i-sensorium.ics.uci.edu, 1
+iasl.ics.uci.edu, 19
+icde2023.ics.uci.edu, 46
+ics.uci.edu, 4990
+ics45c-hub.ics.uci.edu, 1
+ics45c-staging-hub.ics.uci.edu, 1
+ics46-hub.ics.uci.edu, 1
+ics46-staging-hub.ics.uci.edu, 1
+ics53-hub.ics.uci.edu, 1
+ics53-staging-hub.ics.uci.edu, 1
+ieee.ics.uci.edu, 1
+industryshowcase.ics.uci.edu, 23
+informatics.ics.uci.edu, 2
+informatics.uci.edu, 1168
+insite.ics.uci.edu, 1
+intranet.ics.uci.edu, 4
+ipubmed.ics.uci.edu, 1
+isg.ics.uci.edu, 227
+jgarcia.ics.uci.edu, 31
+julia-hub.ics.uci.edu, 1
+luci.ics.uci.edu, 4
+mailman.ics.uci.edu, 4
+malek.ics.uci.edu, 1
+mcs.ics.uci.edu, 10
+mdogucu.ics.uci.edu, 1
+mds.ics.uci.edu, 27
+mhcid.ics.uci.edu, 17
+mondego.ics.uci.edu, 3
+mover.ics.uci.edu, 2
+mswe.ics.uci.edu, 10
+nalini.ics.uci.edu, 7
+ngs.ics.uci.edu, 2034
+oai.ics.uci.edu, 5
+plrg.ics.uci.edu, 16
+psearch.ics.uci.edu, 1
+redmiles.ics.uci.edu, 1
+riscit.ics.uci.edu, 1
+sdcl.ics.uci.edu, 204
+seal.ics.uci.edu, 6
+sherlock.ics.uci.edu, 1
+sli.ics.uci.edu, 337
+sourcerer.ics.uci.edu, 1
+staging-hub.ics.uci.edu, 1
+stairs.ics.uci.edu, 1
+stat.uci.edu, 230
+statconsulting.ics.uci.edu, 5
+student-council.ics.uci.edu, 1
+studentcouncil.ics.uci.edu, 4
+summeracademy.ics.uci.edu, 6
+swiki.ics.uci.edu, 3
+tad.ics.uci.edu, 1
+tastier.ics.uci.edu, 1
+transformativeplay.ics.uci.edu, 62
+tutoring.ics.uci.edu, 5
+tutors.ics.uci.edu, 1
+ugradforms.ics.uci.edu, 1
+unite.ics.uci.edu, 10
+vision.ics.uci.edu, 8
+wearablegames.ics.uci.edu, 9
+wics.ics.uci.edu, 1075
+wiki.ics.uci.edu, 7
+www-db.ics.uci.edu, 11
+xtune.ics.uci.edu, 6
