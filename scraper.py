@@ -56,7 +56,7 @@ def is_valid(url):
             or re.match(r"today.uci.edu/department/information_computer_sciences", parsed.netloc)):
 
             if (re.search(r"\&eventdate="
-                        #+ r"|eventdisplay="
+                        + r"|eventdisplay="
                         + r"|ical="
                         + r"|\d{4}-\d{2}-\d{2}"
                         + r"|events.*\d{4}-\d{2}"
@@ -68,11 +68,13 @@ def is_valid(url):
                         + r"|filter\%"
                         + r"|redirect_to"
                         + r"|login"
+                        + r"|input\.in"
+                        + r"|files/pdf"
                         + r"|action=download", parsed.path.lower() + parsed.query.lower())):
                 return False
 
             return not re.match(
-                r".*\.(css|js|bmp|gif|jpe?g|ico"
+                r".*\.(css|js|bmp|gif|jpe?g|ico|txt|rkt|nb|sas|scm|py|java|war|ss"
                 + r"|png|tiff?|mid|mp2|mp3|mp4"
                 + r"|wav|avi|mov|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
                 + r"|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names|ppsx"
